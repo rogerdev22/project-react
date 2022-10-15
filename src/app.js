@@ -34,25 +34,29 @@ function App() {
     age :inputAge.current.value,  
     });
       
-      //console.log(newUser)
+     console.log(newUser)
       setUsers([ ... users,newUser]);  
   }
    useEffect(()=> {
-    console.log("Fui chamado")
+    console.log("Fui chamada para modificar")
     async function fecthUser() {
 
       const {data:newUsers} = await axios.get("http://localhost:3005/users");
-        setUsers(newUsers);
+       
+      setUsers(newUsers);
    }
     fecthUser()
     },[])
 
-   function deleteUser(userid) {
+  async function deleteUser(userid) {
+    await axios.delete(`http://localhost:3005/users/${userid}`)
+
       console.log( "Oi, fui chamada para excluir")
       console.log(userid)
       const addNewUsers=users.filter(user=>user.id!==userid)
+       
       setUsers(addNewUsers)
-   }
+  }
 
    return (
     <Container>
