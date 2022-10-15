@@ -1,7 +1,7 @@
 // Hoje 13/10/2022 revisando a aula 01 - Cadastrando novos usuarios 
 // hoje 14/10/2022 - Gravando os dados 
 
-import React ,{useState,useRef} from "react" ;
+import React ,{useState,useRef,useEffect} from "react" ;
 import axios from "axios" ;
 
 import {
@@ -25,10 +25,7 @@ function App() {
    const inputName=useRef();
    const inputAge=useRef();
 
-   // Criando novo estado , nome e idade :
-   //const  [name,setName]=useState();
-  // const  [age,setAge]=useState();
-
+   
 
    async function addNewUser() {
 
@@ -38,9 +35,18 @@ function App() {
     });
       
       //console.log(newUser)
-      setUsers(newUser);  
+      setUsers([ ... users,newUser]);  
+  }
+   useEffect(()=> {
+    console.log("Fui chamado")
+    async function fecthUser() {
+
+      const {data:newUsers} = await axios.get("http://localhost:3005/users");
+        setUsers(newUsers);
    }
-  
+    fecthUser()
+    },[])
+
    function deleteUser(userid) {
       console.log( "Oi, fui chamada para excluir")
       console.log(userid)
